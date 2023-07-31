@@ -30,11 +30,14 @@
   width: 128px;
 }
 .main h3 {
-  font-size: 32px;
+  font-size: 40px;
   line-height: 40px;
   font-weight: bold;
   color: #202123;
-  margin: 16px 0 40px;
+  margin: 16px 0 8px;
+}
+.main p {
+  color: #b0b5c0;
 }
 .main form {
   display: flex;

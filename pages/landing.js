@@ -38,7 +38,8 @@ export default function Landing() {
     <div>
       <main className={styles.main}>
         <img src="/envelope.png" className={styles.icon} />
-        <h3>Welcome ADD NAME!</h3>
+        <h3>RespondAI</h3>
+        <p>Browse your unread emails and generate responses in an instant.</p>
         <div>
           <Button variant="contained">Sign into Gmail</Button>
         </div>
