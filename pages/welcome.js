@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react';
+import { useSession } from "next-auth/react";
 import styles from "./welcome.module.css";
 import * as React from "react";
 import Box from '@mui/material/Box';
