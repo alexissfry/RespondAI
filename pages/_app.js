@@ -1,9 +1,12 @@
 import { SessionProvider } from "next-auth/react";
+import { EmailProvider } from "./EmailContext";
 
 function App({ Component, pageProps }) {
     return (
         <SessionProvider session={pageProps.session}>
-            <Component {...pageProps} />
+            <EmailProvider>
+                <Component {...pageProps} />
+            </EmailProvider>
         </SessionProvider>
     );
 }
