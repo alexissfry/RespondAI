@@ -1,10 +1,30 @@
 import Head from "next/head";
 import { useState } from "react";
 import styles from "./index.module.css";
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 export default function Home() {
+  const { data, status } = useSession();
+
+  const renderLoginLogout = () => {
+    if (status === 'authenticated') {
+        return <div>
+        <h1> hi {data.user.name}</h1>
+        <img src={data.user.image} alt={data.user.name + ' photo'} />
+        <button onClick={signOut}>sign out</button>
+      </div>
+    } else if (status === 'loading') {
+        return <h1> loading... please wait</h1>
+    } else {
+        return <div>
+            <button onClick={() => signIn('google')}>sign in with google</button>
+        </div>
+    }
+}
+
+
   const [animalInput, setAnimalInput] = useState("");
-  const [result, setResult] = useState();
+  const [result, setResult] = useState("");
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -24,7 +44,7 @@ export default function Home() {
 
       setResult(data.result);
       setAnimalInput("");
-    } catch(error) {
+    } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
       alert(error.message);
@@ -52,6 +72,8 @@ export default function Home() {
           <input type="submit" value="Generate names" />
         </form>
         <div className={styles.result}>{result}</div>
+
+        {renderLoginLogout()}
       </main>
     </div>
   );
