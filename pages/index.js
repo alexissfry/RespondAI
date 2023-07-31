@@ -63,25 +63,25 @@ export default function Home() {
         }
     }
 
-    //   const render_page = () => {
-    //     if (status !== 'authenticated') {
-    //         return <Landing />
-    //     } else {
-    //         return <div>
-    //             <Button variant="contained" onClick={() => signOut('google')}>sign out with google</Button>
-    //         </div>
-    //     }
-    //   }
+//   const render_page = () => {
+//     if (status !== 'authenticated') {
+//         return <Landing />
+//     } else {
+//         return <div>
+//             <Button variant="contained" onClick={() => signOut('google')}>sign out with google</Button>
+//         </div>
+//     }
+//   }
 
-    return (
-        <div>
-            <Head>
-                <title>RespondAI</title>
-                <link rel="shortcut icon" href="/envelope.ico" />
-            </Head>
-            <main>
-                <Landing />
-            </main>
-        </div>
-    );
+  return (
+    <div>
+      <Head>
+        <title>RespondAI</title>
+        <link rel="shortcut icon" href="/logo.ico"/>
+      </Head>
+      <main>
+        <Landing />
+      </main>
+    </div>
+  );
 }
