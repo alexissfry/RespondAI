@@ -8,11 +8,12 @@
     "start": "next start"
   },
   "dependencies": {
-    "googleapis": "^123.0.0",
-    "http-server": "^14.1.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.2",
+    "googleapis": "^123.0.0",
+    "http-server": "^14.1.1",
     "next": "^13.1.1",
     "next-auth": "^4.22.3",
     "openai": "^3.1.0",
