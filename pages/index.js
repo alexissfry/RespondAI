@@ -1,7 +1,8 @@
 import Head from "next/head";
 import { useState } from "react";
-import styles from "./index.module.css";
+import Landing from "./landing";
 import { useSession, signIn, signOut } from 'next-auth/react';
+import Button from "@mui/material/Button";
 
 export default function Home() {
   const { data, status } = useSession();
@@ -51,29 +52,24 @@ export default function Home() {
     }
   }
 
+//   const render_page = () => {
+//     if (status !== 'authenticated') {
+//         return <Landing />
+//     } else {
+//         return <div>
+//             <Button variant="contained" onClick={() => signOut('google')}>sign out with google</Button>
+//         </div>
+//     } 
+//   }
+
   return (
     <div>
       <Head>
-        <title>OpenAI Quickstart</title>
-        <link rel="icon" href="/dog.png" />
+        <title>RespondAI</title>
+        <link rel="shortcut icon" href="/envelope.ico"/>
       </Head>
-
-      <main className={styles.main}>
-        <img src="/dog.png" className={styles.icon} />
-        <h3>Name my pet</h3>
-        <form onSubmit={onSubmit}>
-          <input
-            type="text"
-            name="animal"
-            placeholder="Enter an animal"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
-          />
-          <input type="submit" value="Generate names" />
-        </form>
-        <div className={styles.result}>{result}</div>
-
-        {renderLoginLogout()}
+      <main>
+        <Landing />
       </main>
     </div>
   );
