@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./landing.module.css";
 import Button from "@mui/material/Button";
+import { signIn } from 'next-auth/react';
 
 export default function Landing() {
   const [animalInput, setAnimalInput] = useState("");
@@ -9,15 +10,15 @@ export default function Landing() {
   async function onSubmit(event) {
     event.preventDefault();
     try {
-      // const response = await fetch("/api/generate", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ animal: animalInput }),
-      // });
+    //   const response = await fetch("/api/generate", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ animal: animalInput }),
+    //   });
 
-      // const data = await response.json();
+    //   const data = await response.json();
       if (response.status !== 200) {
         throw (
           data.error ||
@@ -41,7 +42,7 @@ export default function Landing() {
         <h3>RespondAI</h3>
         <p>Browse your unread emails and generate responses in an instant.</p>
         <div>
-          <Button variant="contained">Sign into Gmail</Button>
+          <Button variant="contained" onClick={() => signIn('google', {callbackUrl: "/welcome"})}>Sign into Gmail</Button>
         </div>
       </main>
     </div>
