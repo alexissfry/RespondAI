@@ -35,16 +35,26 @@ export default function Landing() {
         }
     }
 
-  return (
-    <div>
-      <main className={styles.main}>
-        <img src="/logo.png" className={styles.icon} />
-        <h3>RespondAI</h3>
-        <p>Browse your unread emails and generate responses in an instant.</p>
+    return (
         <div>
-          <Button variant="contained" onClick={() => signIn('google', {callbackUrl: "/welcome"})}>Sign into Gmail</Button>
+            <main className={styles.main}>
+                <img src="/logo.png" className={styles.icon} />
+                <h3>RespondAI</h3>
+                <p>
+                    Browse your unread emails and generate responses in an
+                    instant.
+                </p>
+                <div>
+                    <Button
+                        variant="contained"
+                        onClick={() =>
+                            signIn("google", { callbackUrl: "/welcome" })
+                        }
+                    >
+                        Sign into Gmail
+                    </Button>
+                </div>
+            </main>
         </div>
-      </main>
-    </div>
-  );
+    );
 }
