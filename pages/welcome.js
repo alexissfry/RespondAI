@@ -53,7 +53,10 @@ export default function Welcome() {
             <main className={styles.main}>
                 <h3>
                     Welcome
-                    {data && data.user ? ", ".concat(data.user.name) : ""}
+                    {/* may need to get profile info from this endpoint https://developers.google.com/gmail/api/reference/rest/v1/users/getProfile */}
+                    {data && data.user && data.user.name
+                        ? ", ".concat(data.user.name)
+                        : ""}
                 </h3>
                 <p>Choose how many emails you want to browse...</p>
                 <Box sx={{ minWidth: 120 }}>
