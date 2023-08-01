@@ -10,10 +10,16 @@ import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import { useRouter } from "next/router";
 import { useEmail } from "./EmailContext";
+import { signOut } from "next-auth/react";
 
 export default function Welcome() {
     const { data, status } = useSession();
     const router = useRouter();
+
+    if (status === "unauthenticated") {
+        router.push({ pathname: "/" });
+    }
+
     const { emailNum, setEmailNum } = useEmail();
 
     const handleChange = (event) => {
@@ -29,6 +35,21 @@ export default function Welcome() {
 
     return (
         <div>
+            <Box
+                m={1}
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="flex-end"
+            >
+                <Button
+                    variant="contained"
+                    onClick={() =>
+                        signOut("google").then(() => router.push("/"))
+                    }
+                >
+                    Sign Out
+                </Button>
+            </Box>
             <main className={styles.main}>
                 <h3>
                     Welcome
