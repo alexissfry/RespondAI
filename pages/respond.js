@@ -11,42 +11,22 @@ import styles from "./emails.module.css";
 import { IconButton } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 import { decode } from "base64-arraybuffer";
-
 const axios = require("axios");
 
-export default function Emails() {
+export default function Respond() {
     const router = useRouter();
-    const [loadedEmails, setLoadedEmails] = useState([]);
-    const [emailIndex, setEmailIndex] = useState(-1);
-    const [currEmail, setCurrEmail] = useState();
-    const [currEmailLink, setCurrEmailLink] = useState("");
-    const [lastChange, setLastChange] = useState(1);
 
     const { data: session, status } = useSession();
+    const [currEmail, setCurrEmail] = useState();
 
     if (status === "unauthenticated") {
         router.push({ pathname: "/" });
     }
 
-    const loadEmails = async () => {
-        const requestConfig = {
-            url: `https://gmail.googleapis.com/gmail/v1/users/${encodeURIComponent(
-                session?.user?.id
-            )}/messages`,
-            method: "get",
-            headers: {
-                Authorization: `Bearer ${session?.accessToken}`,
-            },
-            params: {
-                maxResults: emailNum,
-                q: "is:unread",
-            },
-        };
-
-        const response = await axios(requestConfig);
-
-        return response;
-    };
+    let emailId = router.query.emailId;
+    if (emailId === undefined) {
+        router.push({ pathname: "/welcome" });
+    }
 
     const getEmail = async (emailId) => {
         // console.log("get email for ", emailId);
@@ -64,70 +44,25 @@ export default function Emails() {
         return response;
     };
 
-    // rendering
     useEffect(() => {
-        loadEmails()
-            .then((response) => {
-                // console.log(response.data);
-
-                setLoadedEmails(response.data.messages);
-                // console.log(response.data.messages.length);
-                if (response.data.messages.length === 0) {
-                    router.push({ pathname: "/noemails" });
-                }
-                setEmailIndex(0);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
-
-    // useEffect(() => {
-    //     console.log(loadedEmails);
-    //     for (let i = 0; i < loadedEmails.length; i++) {
-    //         getEmail(loadedEmails[i].id)
-    //             .then((resp) => {
-    //                 if (i == emailIndex) {
-    //                     setCurrEmail(resp.data);
-    //                 }
-    //                 // console.log(resp.data);
-    //                 // console.log("body: ", resp.data.payload.body);
-    //             })
-    //             .catch((err) => {
-    //                 console.error(err);
-    //             });
-    //     }
-    // }, [loadedEmails]);
-
-    useEffect(() => {
-        if (loadedEmails.length === 0) {
-            return;
-        }
-        currEmail === undefined;
-        getEmail(loadedEmails[emailIndex].id)
+        getEmail(emailId)
             .then((resp) => {
                 setCurrEmail(resp.data);
-                setCurrEmailLink(
-                    `https://mail.google.com/mail/u/0/#inbox/${resp.data.id}`
-                );
-                console.log(currEmailLink);
             })
             .catch((err) => {
                 console.error(err);
             });
-    }, [emailIndex]);
+    }, []);
 
-    const { emailNum } = useEmail();
-
-    const emailBody = (email) => {
-        if (!email?.payload?.parts) return "";
+    const emailBody = (currEmail) => {
+        if (!currEmail?.payload?.parts) return "";
 
         // Find the part that contains the email body (text or HTML)
-        const bodyPart = email.payload.parts.find(
+        const bodyPart = currEmail.payload.parts.find(
             (part) => part.mimeType === "text/plain"
         );
         // If there is no plain text part, try to find the HTML part
-        const htmlPart = email.payload.parts.find(
+        const htmlPart = currEmail.payload.parts.find(
             (part) => part.mimeType === "text/html"
         );
 
@@ -145,7 +80,7 @@ export default function Emails() {
     };
 
     const renderEmail = () => {
-        if (loadedEmails.length === 0 || currEmail === undefined) {
+        if (currEmail === undefined) {
             const indicatorSize = 80;
             return (
                 <div class={styles.loading_box}>
@@ -176,23 +111,11 @@ export default function Emails() {
 
         return (
             <div class={styles.center_box}>
-                <IconButton
-                    onClick={() => {
-                        setEmailIndex(
-                            (emailIndex + loadedEmails.length - 1) %
-                                loadedEmails.length
-                        );
-                        setLastChange(-1);
-                    }}
-                >
-                    <KeyboardArrowLeftIcon fontSize="large" />
-                </IconButton>
                 <div class={styles.mission_container}>
                     <div class={styles.contents}>
-                        <h2>{subject}</h2>
-                        <h3>{from}</h3>
-                        <p>{body.substring(0, Math.min(200, body.length))}</p>
+                        <h2>Respond to "{subject}"</h2>
                     </div>
+
                     <Box
                         display="flex"
                         alignItems="center"
@@ -200,30 +123,20 @@ export default function Emails() {
                     >
                         <Button
                             variant="contained"
-                            onClick={() => window.open(currEmailLink, "_blank")}
-                        >
-                            View Email in Gmail
-                        </Button>
-                        <Button
-                            variant="contained"
-                            onClick={() =>
-                                router.push({
-                                    pathname: "/respond",
-                                    query: { emailId: currEmail.id },
-                                })
+                            onClick={
+                                // make the email using openai, get the link and send the user there
+                                () => {
+                                    window.open(
+                                        "https://www.google.com",
+                                        "_blank"
+                                    );
+                                }
                             }
                         >
-                            Generate AI Response
+                            Create Email
                         </Button>
                     </Box>
                 </div>
-                <IconButton
-                    onClick={() =>
-                        setEmailIndex((emailIndex + 1) % loadedEmails.length)
-                    }
-                >
-                    <KeyboardArrowRightIcon fontSize="large" />
-                </IconButton>
             </div>
         );
     };

@@ -28,19 +28,13 @@ export default function Welcome() {
 
     const onSubmit = () => {
         if (emailNum !== "") {
-            console.log(emailNum);
             router.push({ pathname: "/emails" });
         }
     };
 
     return (
         <div>
-            <Box
-                m={1}
-                display="flex"
-                justifyContent="flex-end"
-                alignItems="flex-end"
-            >
+            <Box display="flex" justifyContent="flex-end">
                 <Button
                     variant="contained"
                     onClick={() =>
@@ -53,7 +47,7 @@ export default function Welcome() {
             <main className={styles.main}>
                 <h3>
                     Welcome
-                    {/* may need to get profile info from this endpoint https://developers.google.com/gmail/api/reference/rest/v1/users/getProfile */}
+                    {/* may want to get profile info from this endpoint https://developers.google.com/gmail/api/reference/rest/v1/users/getProfile */}
                     {data && data.user && data.user.name
                         ? ", ".concat(data.user.name)
                         : ""}
